@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="utf8" collation="utf8_unicode_ci">pteam</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="pt_project" view="colnames">
+<left>82</left>
+<top>76</top>
+<width>98</width>
+<height>143</height>
+<sql_create_table>CREATE TABLE `pt_project` (
+  `projectId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `name` varchar(255) collate utf8_unicode_ci default NULL COMMENT '项目名称',
+  `desc` text collate utf8_unicode_ci COMMENT '项目描述',
+  `leaderId` int(6) default NULL COMMENT '管理组ID',
+  PRIMARY KEY  (`projectId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='项目表'</sql_create_table>
+</table>
+<table name="pt_account" view="colnames">
+<left>183</left>
+<top>73</top>
+<width>103</width>
+<height>177</height>
+<sql_create_table>CREATE TABLE `pt_account` (
+  `accountId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `username` varchar(255) collate utf8_unicode_ci default NULL COMMENT '用户名',
+  `password` varchar(255) collate utf8_unicode_ci default NULL COMMENT '密码',
+  `phone` varchar(32) collate utf8_unicode_ci default NULL COMMENT '手机号',
+  `email` varchar(255) collate utf8_unicode_ci default NULL COMMENT '邮箱',
+  `realname` varchar(32) collate utf8_unicode_ci default NULL COMMENT '真实姓名',
+  PRIMARY KEY  (`accountId`),
+  UNIQUE KEY `UserName_Qnique` (`username`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='用户表'</sql_create_table>
+</table>
+<table name="pt_groupAccount" view="colnames">
+<left>290</left>
+<top>73</top>
+<width>136</width>
+<height>126</height>
+<sql_create_table>CREATE TABLE `pt_groupaccount` (
+  `groupAccountId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `accountId` int(6) default NULL COMMENT '关联用户ID',
+  `groupId` int(6) default NULL COMMENT '分组ID',
+  PRIMARY KEY  (`groupAccountId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='分组用户关联表'</sql_create_table>
+</table>
+<table name="pt_group" view="colnames">
+<left>429</left>
+<top>72</top>
+<width>98</width>
+<height>160</height>
+<sql_create_table>CREATE TABLE `pt_group` (
+  `groupId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `projectId` int(6) default NULL COMMENT '所属项目ID',
+  `name` varchar(32) collate utf8_unicode_ci NOT NULL COMMENT '分组名称',
+  `desc` text collate utf8_unicode_ci COMMENT '分组描述',
+  `leaderId` int(6) default NULL COMMENT '管理组ID',
+  PRIMARY KEY  (`groupId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='分组表'</sql_create_table>
+</table>
+<table name="pt_leader" view="colnames">
+<left>528</left>
+<top>70</top>
+<width>131</width>
+<height>126</height>
+<sql_create_table>CREATE TABLE `pt_leader` (
+  `leaderId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `mainAccountId` int(6) default NULL COMMENT '主要负责人ID',
+  `managerList` text collate utf8_unicode_ci COMMENT '管理员ID列表，用逗号分隔',
+  PRIMARY KEY  (`leaderId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='管理组表'</sql_create_table>
+</table>
+<table name="pt_task" view="standard">
+<left>77</left>
+<top>260</top>
+<width>219</width>
+<height>229</height>
+<sql_create_table>CREATE TABLE `pt_task` (
+  `taskId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `projectId` int(6) default NULL COMMENT '任务所属项目',
+  `name` varchar(255) collate utf8_unicode_ci default NULL COMMENT '任务名称',
+  `desc` text collate utf8_unicode_ci COMMENT '任务描述',
+  `accountId` int(6) default NULL COMMENT '任务负责人ID',
+  `createId` int(6) default NULL COMMENT '任务创建者ID',
+  `createTime` datetime default NULL COMMENT '任务创建时间',
+  `statusId` int(6) default NULL COMMENT '任务状态ID',
+  `parentTaskId` int(6) default NULL COMMENT '父任务ID，为父任务为0',
+  `completeTime` datetime default NULL COMMENT '任务完成时间',
+  PRIMARY KEY  (`taskId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='任务表'</sql_create_table>
+</table>
+<table name="pt_notice" view="colnames">
+<left>799</left>
+<top>66</top>
+<width>96</width>
+<height>177</height>
+<sql_create_table>CREATE TABLE `pt_notice` (
+  `noticeId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `type` int(1) default NULL COMMENT 'notice类型，1代表全局，2代表项目，3代表分组',
+  `sourceId` int(6) default NULL COMMENT '对应目标ID，全局时为0',
+  `title` varchar(255) collate utf8_unicode_ci default NULL COMMENT '公告标题',
+  `content` text collate utf8_unicode_ci COMMENT '公告内容',
+  `pubtime` datetime default NULL COMMENT '公告发布时间',
+  PRIMARY KEY  (`noticeId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='公告表'</sql_create_table>
+</table>
+<table name="pt_message" view="colnames">
+<left>664</left>
+<top>68</top>
+<width>130</width>
+<height>160</height>
+<sql_create_table>CREATE TABLE `pt_message` (
+  `messageId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `fromAccountId` int(6) default NULL COMMENT '发送者ID',
+  `toAccountId` int(6) default NULL COMMENT '接受者ID',
+  `content` text collate utf8_unicode_ci COMMENT '消息内容',
+  `pubTime` datetime default NULL COMMENT '消息发布时间',
+  PRIMARY KEY  (`messageId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='消息表'</sql_create_table>
+</table>
+<table name="pt_taskStatus" view="colnames">
+<left>431</left>
+<top>258</top>
+<width>118</width>
+<height>126</height>
+<sql_create_table>CREATE TABLE `pt_taskstatus` (
+  `taskStatusId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `name` varchar(255) collate utf8_unicode_ci default NULL COMMENT '状态名称',
+  `desc` text collate utf8_unicode_ci COMMENT '状态描述',
+  PRIMARY KEY  (`taskStatusId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='任务状态表'</sql_create_table>
+</table>
+<table name="pt_taskProcess" view="colnames">
+<left>301</left>
+<top>258</top>
+<width>126</width>
+<height>202</height>
+<sql_create_table>CREATE TABLE `pt_taskprocess` (
+  `taskProcessId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `taskId` int(6) default NULL COMMENT '所属任务ID',
+  `fromStatusId` int(6) default NULL COMMENT '处理前状态ID',
+  `toStatusId` int(6) default NULL COMMENT '处理后状态ID',
+  `remark` text collate utf8_unicode_ci COMMENT '备注',
+  `processTime` datetime default NULL COMMENT '处理发生时间',
+  `accountId` int(6) default NULL COMMENT '处理者ID',
+  `isRead` int(1) default NULL COMMENT '已读状态，1代表未读，2代表已读',
+  PRIMARY KEY  (`taskProcessId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='任务处理记录表'</sql_create_table>
+</table>
+<table name="pt_tag" view="colnames">
+<left>552</left>
+<top>258</top>
+<width>77</width>
+<height>109</height>
+<sql_create_table>CREATE TABLE `pt_tag` (
+  `tagId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `value` varchar(32) collate utf8_unicode_ci default NULL COMMENT 'tag名称',
+  PRIMARY KEY  (`tagId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='标签表'</sql_create_table>
+</table>
+<table name="pt_tagToTask" view="colnames">
+<left>634</left>
+<top>258</top>
+<width>82</width>
+<height>126</height>
+<sql_create_table>CREATE TABLE `pt_tagtotask` (
+  `tttid` int(6) NOT NULL auto_increment COMMENT '主键',
+  `tagId` int(6) default NULL COMMENT '标签ID',
+  `taskId` int(6) default NULL COMMENT '任务ID',
+  PRIMARY KEY  (`tttid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
+</table>
+<table name="pt_trend" view="colnames">
+<left>721</left>
+<top>258</top>
+<width>120</width>
+<height>139</height>
+<sql_create_table>CREATE TABLE `pt_trend` (
+  `trendId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `produceTime` datetime default NULL COMMENT '发生时间',
+  `accountId` int(6) default NULL COMMENT '动态当事人ID',
+  `trendJSON` text collate utf8_unicode_ci COMMENT '动态内容JSON对象',
+  PRIMARY KEY  (`trendId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='动态表'</sql_create_table>
+</table>
+<table name="pt_memo" view="colnames">
+<left>846</left>
+<top>258</top>
+<width>102</width>
+<height>143</height>
+<sql_create_table>CREATE TABLE `pt_memo` (
+  `memoId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `accountId` int(6) default NULL COMMENT '所属用户ID',
+  `content` text collate utf8_unicode_ci COMMENT '备忘录内容',
+  `pubTime` datetime default NULL COMMENT '备忘录创建时间',
+  PRIMARY KEY  (`memoId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='备忘录表'</sql_create_table>
+</table>
+<table name="pt_comment" view="colnames">
+<left>435</left>
+<top>395</top>
+<width>149</width>
+<height>137</height>
+<sql_create_table>CREATE TABLE `pt_comment` (
+  `commentId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `accountId` int(6) default NULL COMMENT '评论者ID',
+  `trendId` int(1) default NULL COMMENT '动态ID',
+  PRIMARY KEY  (`commentId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='评论表'</sql_create_table>
+</table>
+<table name="pt_share" view="colnames">
+<left>899</left>
+<top>64</top>
+<width>108</width>
+<height>160</height>
+<sql_create_table>CREATE TABLE `pt_share` (
+  `shareId` int(6) NOT NULL auto_increment COMMENT '主键',
+  `accountId` int(6) default NULL COMMENT '分享者ID',
+  `comment` text collate utf8_unicode_ci COMMENT '分享感言',
+  `shareJSON` text collate utf8_unicode_ci COMMENT '分享内容JSON对象',
+  `shareTime` datetime default NULL COMMENT '分享时间',
+  PRIMARY KEY  (`shareId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='分享表'</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>
