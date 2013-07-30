@@ -1,0 +1,35 @@
+{
+	cod_101_UserLoginAction : {
+		request : {
+			cod : 101,
+			prm : {
+				username : 'admin',  // 用户名
+				password : 'e10adc3949ba59abbe56e057f20f883e'   // 密码，32位MD5值
+			}
+		},
+		succss_response : {
+			cod : 101,
+			res : true,
+			pld : {
+				aut : 'a3dcb4d229de6fde0db5686dee47145d'    //aut，授权令牌
+			}
+		},
+		error_response : {
+			cod : 101,
+			res : false,
+			pld : {
+				errorCode : 8001,    // 错误代码, 8001代表用户名不存在, 8002代表密码错误, 
+				errorMsg : '错误信息'  // 错误信息
+			}
+		}
+	},
+	cod_102_GetUserInfo : {
+		request : {
+			cod : 102,
+			prm : {
+				
+			},
+			aut : 'a3dcb4d229de6fde0db5686dee47145d'     //aut, 授权令牌，根据aut来获取用户信息
+		}
+	}
+}
