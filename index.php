@@ -2,4 +2,9 @@
 
 include 'core/core.php';
 
-echo localRequest(999, null, false);
+$prm->username = 'admin';
+$prm->password = '21232f297a57a5a743894a0e4a801fc3';
+
+$response = localRequest(101, $prm);
+
+echo localRequest(102, null, $response->pld->aut, false);
