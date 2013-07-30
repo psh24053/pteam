@@ -31,7 +31,6 @@ function responseErrorByString($errorCode, $customMsg = ""){
 function responseErrorByJSON($errorCode, $actionCode, $customMsg = ""){
 	$response->cod = $actionCode;
 	$response->res = false;
-	$response->prm = new Object();
 	$response->prm->errorCode = $errorCode;
 	$response->prm->errorMsg = ErrorCode::$ERROR_CODE[$errorCode];
 	$response->prm->customMsg = $customMsg;
@@ -51,7 +50,7 @@ function handlerRequest($json){
 	 * 如果jsonobject对象为null，则说明$json不是一个JSON字符串
 	*/
 	if($jsonObject == NULL){
-		$responseError = responseErrorByString(ErrorCode::$ERROR_CODE_NOT_JSON_STRING);
+		$responseError = responseErrorByString(ErrorCode::ERROR_CODE_NOT_JSON_STRING);
 		log_error($responseError);
 		return $responseError;
 	}
@@ -59,7 +58,7 @@ function handlerRequest($json){
 	 * 验证json的格式是否正确
 	*/
 	if(!validationRequest($jsonObject)){
-		$responseError = responseErrorByString(ErrorCode::$ERROR_CODE_ACTION_FORMAT_ERROR);
+		$responseError = responseErrorByString(ErrorCode::ERROR_CODE_ACTION_FORMAT_ERROR);
 		log_error($responseError);
 		return $responseError;
 	}
@@ -69,7 +68,7 @@ function handlerRequest($json){
 	*/
 	$cod = $jsonObject->cod;
 	if(!array_key_exists($cod, $actions)){
-		$responseError = responseErrorByJSON(ErrorCode::$ERROR_CODE_ACTION_NOT_FOUND, $cod);
+		$responseError = responseErrorByJSON(ErrorCode::ERROR_CODE_ACTION_NOT_FOUND, $cod);
 		log_error($responseError);
 		return $responseError;
 	}
