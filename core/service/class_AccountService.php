@@ -63,6 +63,64 @@ class AccountService extends Service {
 		return $result;
 		
 	}
+	/**
+	 * 获取用户信息
+	 * @param int $accountId
+	 * @return boolean
+	 */
+	public function getUserInfo($accountId){
+		$db = $GLOBALS['mysql'];
+		$db->Connect();
+		
+		$sql = 'select * from pt_account where accountId = "' . mysql_real_escape_string($accountId) . '"';
+		
+		$db->query($sql);
+		
+		$result = null;
+		
+		if($db->isGo()){
+			//执行成功
+			if($this->item = $db->getRow()){
+				$result = $this->item;
+			}
+		}else{
+			log_error($db->getError());
+		}
+		// 关闭数据库连接
+		$db->Close();
+		return $result;
+	}
+	/**
+	 * 注册用户
+	 * @param object $account
+	 * @return boolean
+	 */
+	public function registerUser($account){
+		$db = $GLOBALS['mysql'];
+		$db->Connect();
+		
+		$account->username = mysql_real_escape_string($account->username);
+		$account->password = mysql_real_escape_string($account->password);
+		$account->phone = mysql_real_escape_string($account->phone);
+		$account->email = mysql_real_escape_string($account->email);
+		$account->realname = mysql_real_escape_string($account->realname);
+		
+		$sql = 'insert into pt_account(username,password,phone,email,realname) values("'.$account->username.'","'.$account->password.'","'.$account->phone.'","'.$account->email.'","'.$account->realname.'")';
+		
+		$db->query($sql);
+		
+		$result = -1;
+		
+		if($db->isGo()){
+			//执行成功
+			$result = $db->getUpdateNum();
+		}else{
+			log_error($db->getError());
+		}
+		// 关闭数据库连接
+		$db->Close();
+		return $result > 0;
+	}
 	
 }
 

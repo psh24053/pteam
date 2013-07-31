@@ -21,6 +21,13 @@ class GetUserInfoAction extends Action {
 		
 		$account = getAutObject($action->aut);
 
+		// 从后台重新读取用户信息，然后覆盖aut中的用户信息
+		$accountService = new AccountService();
+		$account = $accountService->getUserInfo($account->accountId);
+		
+		putAutMap($action->aut, $account);
+		
+		
 		return $this->toSuccess($action, $account);
 		
 		

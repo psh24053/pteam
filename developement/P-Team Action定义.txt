@@ -1,4 +1,7 @@
 {
+	// 用户登录
+	// cod : 101
+	// anthor : panshihao 
 	cod_101_UserLoginAction : {
 		request : {
 			cod : 101,
@@ -19,10 +22,14 @@
 			res : false,
 			pld : {
 				errorCode : 8001,    // 错误代码, 8001代表用户名不存在, 8002代表密码错误, 
-				errorMsg : '错误信息'  // 错误信息
+				errorMsg : '错误信息',  // 错误信息
+				customMsg : '自定义错误信息'
 			}
 		}
 	},
+	// 获取用户信息
+	// cod : 102
+	// anthor : panshihao 
 	cod_102_GetUserInfo : {
 		request : {
 			cod : 102,
@@ -30,6 +37,386 @@
 				
 			},
 			aut : 'a3dcb4d229de6fde0db5686dee47145d'     //aut, 授权令牌，根据aut来获取用户信息
+		},
+		success_response : {
+			cod : 102,
+			res : true,
+			pld : {
+				<pt_account>表对象
+			}
+		},
+		error_response : {
+			cod : 102,
+			res : false,
+			pld : {
+				errorCode : 8505, //错误代码  通用错误
+				errorMsg : '错误信息',
+				customMsg : '自定义错误信息' 
+			}
 		}
-	}
+	},
+	// 注册用户
+	// cod : 103
+	// anthor : panshihao 
+	cod_103_Register : {
+		request : {
+			cod : 103,
+			prm : {
+				username : 'admin',   // 用户名
+				password : 'a3dcb4d229de6fde0db5686dee47145d',   //密码，32位MD5
+				phone : 15858586969,  // 电话号码
+				email : 'panshihao@panshihao.cn',  // 邮箱
+				realname : '张三', //真实名称
+				login : false // 注册成功后是否自动登录，默认为false不自动登录
+			}
+		},
+		success_response : {
+			cod : 103,
+			res : true,
+			pld : {
+				*(aut) : 'a3dcb4d229de6fde0db5686dee47145d'   // 登录成功后aut令牌，当login为true时才有效
+			}
+		},
+		error_response : {
+			cod : 103,
+			res : false,
+			pld : {
+				errorCode : 8003,    // 错误代码, 8003代表用户名已存在
+				errorMsg : '错误信息',  // 错误信息
+				customMsg : '自定义错误信息'
+			}
+		}
+	
+	},
+	// 获取用户备忘录列表
+	// cod : 104
+	// anthor : panshihao 
+	cod_104_GetMemoList : {
+		request : {
+			cod : 104,
+			prm : {
+				start : 0,    // 起始索引
+				count : 10,   // 加载数量
+				filter : {
+					<通用Filter对象>
+				}
+			},
+			aut : a3dcb4d229de6fde0db5686dee47145d'  // aut授权令牌，必须携带才能使用该功能
+		},
+		success_response : {
+			cod : 104,
+			res : true,
+			pld : {
+				count : 10,   //实际返回数量
+				memolist : [{    //备忘录数组
+					<pt_memo>表对象
+				}]
+			}
+		},
+		error_response : {
+			cod : 104,
+			res : false,
+			pld : {
+				errorCode : 8505, //错误代码  通用错误
+				errorMsg : '错误信息',
+				customMsg : '自定义错误信息' 
+			}
+		}
+	},
+	// 创建备忘录
+	// cod : 105
+	// anthor : panshihao 	
+	cod_105_CreateMemo : {
+		request : {
+			cod : 105,
+			prm : {
+				content : '备忘录内容',   
+				remindTime : '2013-07-31 17:23:20' //备忘录提醒时间
+			},
+			aut : a3dcb4d229de6fde0db5686dee47145d'  // aut授权令牌，必须携带才能使用该功能
+		
+		},
+		success_response : {
+			cod : 105,
+			res : true,
+			pld : {
+				
+			}
+		},
+		error_response : {
+			cod : 105,
+			res : false,
+			pld : {
+				errorCode : 8505, //错误代码  通用错误
+				errorMsg : '错误信息',
+				customMsg : '自定义错误信息' 
+			}
+		}
+	},
+	// 删除备忘录
+	// cod : 106
+	// anthor : panshihao 	
+	cod_106_DeleteMemo : {
+		request : {
+			cod : 106,
+			prm : {
+				memoId : 1    //备忘录ID   
+			},
+			aut : a3dcb4d229de6fde0db5686dee47145d'  // aut授权令牌，必须携带才能使用该功能
+		
+		},
+		success_response : {
+			cod : 106,
+			res : true,
+			pld : {
+				
+			}
+		},
+		error_response : {
+			cod : 106,
+			res : false,
+			pld : {
+				errorCode : 8505, //错误代码  通用错误
+				errorMsg : '错误信息',
+				customMsg : '自定义错误信息' 
+			}
+		}
+	},
+	// 获取消息列表
+	// cod : 107
+	// anthor : panshihao 	
+	cod_107_GetMessageList : {
+		request : {
+			cod : 107,
+			prm : {
+				start : 0,    // 起始索引
+				count : 10,   // 加载数量
+				filter : {
+					<通用Filter对象>
+				} 
+			},
+			aut : a3dcb4d229de6fde0db5686dee47145d'  // aut授权令牌，必须携带才能使用该功能
+		
+		},
+		success_response : {
+			cod : 107,
+			res : true,
+			pld : {
+				count : 10,   // 实际返回数量
+				messageList : [{
+					<pt_message>表对象
+				}]
+			}
+		},
+		error_response : {
+			cod : 107,
+			res : false,
+			pld : {
+				errorCode : 8505, //错误代码  通用错误
+				errorMsg : '错误信息',
+				customMsg : '自定义错误信息' 
+			}
+		}
+	},
+	// 设置消息已读
+	// cod : 108
+	// anthor : panshihao 	
+	cod_108_SetMessageRead : {
+		request : {
+			cod : 108,
+			prm : {
+				messageId : 1 //消息ID
+			},
+			aut : a3dcb4d229de6fde0db5686dee47145d'  // aut授权令牌，必须携带才能使用该功能
+		
+		},
+		success_response : {
+			cod : 108,
+			res : true,
+			pld : {
+				
+			}
+		},
+		error_response : {
+			cod : 108,
+			res : false,
+			pld : {
+				errorCode : 8505, //错误代码  通用错误
+				errorMsg : '错误信息',
+				customMsg : '自定义错误信息' 
+			}
+		}
+	},
+	// 发送消息
+	// cod : 109
+	// anthor : panshihao 	
+	cod_109_SendMessage : {
+		request : {
+			cod : 109,
+			prm : {
+				toAccountId : 1, //接受者ID
+				content : '消息内容'
+			},
+			aut : a3dcb4d229de6fde0db5686dee47145d'  // aut授权令牌，必须携带才能使用该功能
+		
+		},
+		success_response : {
+			cod : 109,
+			res : true,
+			pld : {
+				
+			}
+		},
+		error_response : {
+			cod : 109,
+			res : false,
+			pld : {
+				errorCode : 8505, //错误代码  通用错误
+				errorMsg : '错误信息',
+				customMsg : '自定义错误信息' 
+			}
+		}
+	},
+	// 删除消息
+	// cod : 110
+	// anthor : panshihao 	
+	cod_110_DeleteMessage : {
+		request : {
+			cod : 110,
+			prm : {
+				messageId : 1, // 消息ID
+			},
+			aut : a3dcb4d229de6fde0db5686dee47145d'  // aut授权令牌，必须携带才能使用该功能
+		
+		},
+		success_response : {
+			cod : 110,
+			res : true,
+			pld : {
+				
+			}
+		},
+		error_response : {
+			cod : 110,
+			res : false,
+			pld : {
+				errorCode : 8505, //错误代码  通用错误
+				errorMsg : '错误信息',
+				customMsg : '自定义错误信息' 
+			}
+		}
+	},
+	// 获取用户列表《@版》
+	// cod : 111
+	// anthor : panshihao 	
+	cod_111_GetUsetList : {
+		request : {
+			cod : 111,
+			prm : {
+				start : 0,    // 起始索引
+				count : 10,   // 加载数量
+				filter : {
+					<通用Filter对象>
+				} 
+			},
+			aut : a3dcb4d229de6fde0db5686dee47145d'  // aut授权令牌，必须携带才能使用该功能
+		
+		},
+		success_response : {
+			cod : 111,
+			res : true,
+			pld : {
+				count : 10,  // 实际返回数量
+				userList : [{
+					accountId : 1,  // 用户ID
+					realname : '张三' //真实名称
+				}]
+			}
+		},
+		error_response : {
+			cod : 111,
+			res : false,
+			pld : {
+				errorCode : 8505, //错误代码  通用错误
+				errorMsg : '错误信息',
+				customMsg : '自定义错误信息' 
+			}
+		}
+	},	
+	// 获取公告列表
+	// cod : 112
+	// anthor : panshihao 	
+	cod_112_GetNoticeList : {
+		request : {
+			cod : 112,
+			prm : {
+				start : 0,    // 起始索引
+				count : 10,   // 加载数量
+				filter : {
+					<通用Filter对象>
+				} 
+			},
+			aut : a3dcb4d229de6fde0db5686dee47145d'  // aut授权令牌，必须携带才能使用该功能
+		
+		},
+		success_response : {
+			cod : 112,
+			res : true,
+			pld : {
+				count : 10,  // 实际返回数量
+				noticeList : [{
+					<pt_notice>表对象
+				}]
+			}
+		},
+		error_response : {
+			cod : 112,
+			res : false,
+			pld : {
+				errorCode : 8505, //错误代码  通用错误
+				errorMsg : '错误信息',
+				customMsg : '自定义错误信息' 
+			}
+		}
+	},
+	// 分享内容
+	// cod : 113
+	// anthor : panshihao 	
+	cod_113_ShareContent : {
+		request : {
+			cod : 113,
+			prm : {
+				start : 0,    // 起始索引
+				count : 10,   // 加载数量
+				filter : {
+					<通用Filter对象>
+				} 
+			},
+			aut : a3dcb4d229de6fde0db5686dee47145d'  // aut授权令牌，必须携带才能使用该功能
+		
+		},
+		success_response : {
+			cod : 112,
+			res : true,
+			pld : {
+				count : 10,  // 实际返回数量
+				noticeList : [{
+					<pt_notice>表对象
+				}]
+			}
+		},
+		error_response : {
+			cod : 112,
+			res : false,
+			pld : {
+				errorCode : 8505, //错误代码  通用错误
+				errorMsg : '错误信息',
+				customMsg : '自定义错误信息' 
+			}
+		}
+	},	
+
+
+
+	
 }

@@ -2,9 +2,11 @@
 
 include 'core/core.php';
 
-$prm->username = 'admin';
-$prm->password = '21232f297a57a5a743894a0e4a801fc3';
+$prm->username = 'admin3';
+$prm->password = 'admin';
+$prm->phone = '15858586969';
+$prm->email = 'panshihao@panshihao.cn';
+$prm->realname = '张三';
+$prm->login = true;
 
-$response = localRequest(101, $prm);
-
-echo localRequest(102, null, $response->pld->aut, false);
+echo localRequest(103, $prm, null, false);

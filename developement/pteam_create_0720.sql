@@ -96,6 +96,7 @@ CREATE TABLE `pt_memo` (
   `accountId` int(6) default NULL COMMENT '所属用户ID',
   `content` text collate utf8_unicode_ci COMMENT '备忘录内容',
   `pubTime` datetime default NULL COMMENT '备忘录创建时间',
+  `remindTime` datetime default NULL COMMENT '备忘录提醒时间',
   PRIMARY KEY  (`memoId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='备忘录表';
 
@@ -111,6 +112,7 @@ CREATE TABLE `pt_message` (
   `toAccountId` int(6) default NULL COMMENT '接受者ID',
   `content` text collate utf8_unicode_ci COMMENT '消息内容',
   `pubTime` datetime default NULL COMMENT '消息发布时间',
+  `readMark` int(1) default NULL COMMENT '已读标记, 1代表未读',
   PRIMARY KEY  (`messageId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='消息表';
 
@@ -154,6 +156,8 @@ CREATE TABLE `pt_share` (
   `shareId` int(6) NOT NULL auto_increment COMMENT '主键',
   `accountId` int(6) default NULL COMMENT '分享者ID',
   `comment` text collate utf8_unicode_ci COMMENT '分享感言',
+  `scope` int(1) default NULL COMMENT '分享范围，0代表整个pteam，1代表某个项目，2代表某个任务，3代表某个用户组',
+  `scopeTargetId` int(6) default NULL COMMENT '分享范围目标ID',
   `shareJSON` text collate utf8_unicode_ci COMMENT '分享内容JSON对象',
   `shareTime` datetime default NULL COMMENT '分享时间',
   PRIMARY KEY  (`shareId`)
@@ -245,6 +249,8 @@ CREATE TABLE `pt_trend` (
   `trendId` int(6) NOT NULL auto_increment COMMENT '主键',
   `produceTime` datetime default NULL COMMENT '发生时间',
   `accountId` int(6) default NULL COMMENT '动态当事人ID',
+  `scope` int(1) default NULL COMMENT '动态范围，0代表整个pteam，1代表某个项目，2代表某个任务，3代表某个用户组',
+  `scopeTargetId` int(6) default NULL COMMENT '动态范围目标ID',
   `trendJSON` text collate utf8_unicode_ci COMMENT '动态内容JSON对象',
   PRIMARY KEY  (`trendId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='动态表';

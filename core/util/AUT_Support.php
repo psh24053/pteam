@@ -73,3 +73,17 @@ function clearAutMap(){
 	unset($autMap);
 	$GLOBALS['aut_map'] = $autMap;
 }
+/**
+ * 覆盖aut信息
+ * @param unknown_type $aut
+ * @param unknown_type $obj
+ */
+function putAutMap($aut, $obj){
+	$autMap = null;
+	if(isset($GLOBALS['aut_map'])){
+		$autMap = $GLOBALS['aut_map'];
+	}
+	
+	$autMap[$aut] = $obj;
+	$GLOBALS['aut_map'] = $autMap;
+}
