@@ -386,27 +386,23 @@
 		request : {
 			cod : 113,
 			prm : {
-				start : 0,    // 起始索引
-				count : 10,   // 加载数量
-				filter : {
-					<通用Filter对象>
-				} 
+				comment : '分享感言',
+				scope : 0,   // 分享范围
+				scopeTargetId : 1,   //分享范围目标ID
+				shareContent : '分享内容'
 			},
 			aut : a3dcb4d229de6fde0db5686dee47145d'  // aut授权令牌，必须携带才能使用该功能
 		
 		},
 		success_response : {
-			cod : 112,
+			cod : 113,
 			res : true,
 			pld : {
-				count : 10,  // 实际返回数量
-				noticeList : [{
-					<pt_notice>表对象
-				}]
+				
 			}
 		},
 		error_response : {
-			cod : 112,
+			cod : 113,
 			res : false,
 			pld : {
 				errorCode : 8505, //错误代码  通用错误
@@ -415,7 +411,42 @@
 			}
 		}
 	},	
-
+	// 获取动态列表
+	// cod : 114
+	// anthor : panshihao 	
+	cod_114_GetTrendList : {
+		request : {
+			cod : 114,
+			prm : {
+				start : 0,   // 起始索引 
+				count : 10,  // 获取数量
+				filter : {
+					<通用Filter对象>
+				}
+			},
+			aut : a3dcb4d229de6fde0db5686dee47145d'  // aut授权令牌，必须携带才能使用该功能
+		
+		},
+		success_response : {
+			cod : 114,
+			res : true,
+			pld : {
+				count : 10,  // 实际返回数量
+				trendList : [{
+					<pt_trend>表对象
+				}]
+			}
+		},
+		error_response : {
+			cod : 114,
+			res : false,
+			pld : {
+				errorCode : 8505, //错误代码  通用错误
+				errorMsg : '错误信息',
+				customMsg : '自定义错误信息' 
+			}
+		}
+	},
 
 
 	
