@@ -121,7 +121,41 @@ class AccountService extends Service {
 		$db->Close();
 		return $result > 0;
 	}
-	
+	/**
+	 * 获取用户列表
+	 * @param Int start,Int count
+	 * @return array
+	 */
+	public function GetUserList($start,$count){
+		$db = $GLOBALS['mysql'];
+		$db->Connect();
+		
+		$sql = 'select * from pt_account limit '.$start.','.$count;
+		
+		$db->query($sql);
+		
+		$resultArray = array();
+		$s = array();
+		if($db->isGo()){
+			$relCount = $db->getSelectNum();
+			//array_push($pld, $relCount);
+			$resultArray['count'] = $relCount;
+		
+			while ($this->item = $db->getRow())
+			{
+				array_push($s, $this->item['accountId']);
+				array_push($s, $this->item['realname']);
+			}
+		
+			$resultArray['userList'] = $s;
+		
+		
+		}else {
+			log_error($db->getError());
+		}
+		$db->Close();
+		return $resultArray;
+	}
 }
 
 ?>

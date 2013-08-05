@@ -32,7 +32,7 @@ $GLOBALS['log_level'] = 'debug';
  */
 $dbconfig['host']='localhost';//数据库主机
 $dbconfig['user']='root';//数据库用户名
-$dbconfig['pass']='root';//数据库密码
+$dbconfig['pass']='admin';//数据库密码
 $dbconfig['port']='3306';//数据库端口，mysql默认是3306，一般不需要修改
 $dbconfig['dbname']='pteam';//数据库名
 $dbconfig['charset']='utf8';//数据库编码
