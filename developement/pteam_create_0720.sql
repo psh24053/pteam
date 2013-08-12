@@ -157,8 +157,8 @@ CREATE TABLE `pt_share` (
   `accountId` int(6) default NULL COMMENT '分享者ID',
   `comment` text collate utf8_unicode_ci COMMENT '分享感言',
   `scope` int(1) default NULL COMMENT '分享范围，0代表整个pteam，1代表某个项目，2代表某个任务，3代表某个用户组',
-  `scopeTargetId` int(6) default NULL COMMENT '分享范围目标ID',
-  `shareJSON` text collate utf8_unicode_ci COMMENT '分享内容JSON对象',
+  `scopeTargetId` int(6) default NULL COMMENT '分享范围目标ID, 如果scope为0该字段无效',
+  `shareContent` text collate utf8_unicode_ci COMMENT '分享内容',
   `shareTime` datetime default NULL COMMENT '分享时间',
   PRIMARY KEY  (`shareId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='分享表';
