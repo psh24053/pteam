@@ -74,4 +74,10 @@ print_r($response);
 // $prmt->start = 0;
 // $prmt->count = 3;
 // echo localRequest(113, $prmt,$response->pld->aut,false);
+
+//获取动态列表Action 114
+// $prmt->start = 0;
+// $prmt->count = 3;
+// echo localRequest(114, $prmt,$response->pld->aut,false);
+
 ?>
