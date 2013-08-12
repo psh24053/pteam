@@ -156,6 +156,7 @@ class AccountService extends Service {
 		$db->Close();
 		return $resultArray;
 	}
+
 }
 
 ?>

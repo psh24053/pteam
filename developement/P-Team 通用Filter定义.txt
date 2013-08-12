@@ -1,0 +1,24 @@
+{
+	filter : {
+		sort : {    //排序方式字段，可为空
+			field : '排序字段',
+			order : 'desc'  //desc或者asc
+		},
+		where : [{  // 过滤条件字段数组，可为空,所有where条件之间都是and的关系
+			field : '字段名称',   // 表字段名称
+			mode : '过滤方式',   //  =,!=,<,>,<=,>=,in(notin),between(notbetween),like(notlike),isnull(isnotnull)
+			args : ['10']   // 过滤参数数组 
+		}],
+		columns : ['*'], // 返回哪些字段，默认为 *
+		tables : [{  // 多表查询，这里仅包含当前service以外的表，默认为空
+			table : '表名',  
+			as : '别名',   // 一旦使用多表查询，那么where以及columns中的字段名称，都需要在前面加上别名.，
+							service所属表的别名默认为m
+			joinWhere : 'm.primaryId = 别名.primaryId',  // join条件				
+			
+		}]
+	}
+	
+	
+
+}
