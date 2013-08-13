@@ -2,6 +2,28 @@
 
 include 'core/core.php';
 
+$accountService = new AccountService();
+
+
+$filter->sort->field = 'phone';
+$filter->sort->order = 'asc';
+$filter->columns = array('phone');
+
+$where1->field = 'username';
+$where1->mode = '=';
+$where1->args = array('admin');
+
+$filter->where = array($where1);
+
+array_push($filter->where, $where1);
+
+print_r($filter);
+echo '<hr />';
+
+$result = $accountService->filterSerivce(0, 10, $filter);
+
+print_r($result);
+
 /**
  * 测试
  * @author hongyushui
@@ -17,10 +39,10 @@ include 'core/core.php';
 // print_r($response);
 
 //测试Action 101 登录
-$prm->username = 'Rock';
-$prm->password = '123456';
-$response = localRequest(101, $prm);
-print_r($response);
+// $prm->username = 'Rock';
+// $prm->password = '123456';
+// $response = localRequest(101, $prm);
+// print_r($response);
 
 //测试Action 102 用户信息
 // $resps = localRequest(102,null,$response->pld->aut);

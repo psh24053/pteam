@@ -38,6 +38,24 @@ class NoticeService extends Service{
 		}
 		$db->Close();
 		return $resultArray;
-	} 
+	}
+	/* (non-PHPdoc)
+	 * @see Service::getTableName()
+	 */public function getTableName() {
+		// TODO Auto-generated method stub
+		}
+
+	/* (non-PHPdoc)
+	 * @see Service::getTablePrimary()
+	 */public function getTablePrimary() {
+		// TODO Auto-generated method stub
+		}
+
+	/* (non-PHPdoc)
+	 * @see Service::getTableFieldArray()
+	 */public function getTableFieldArray() {
+		// TODO Auto-generated method stub
+		}
+ 
 }
 ?>

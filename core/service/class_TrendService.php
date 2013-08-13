@@ -6,6 +6,7 @@
  */
 class TrendService extends Service{
 	
+	
 	/**
 	 * 获取动态列表
 	 * @param Int Start Int Count
@@ -57,11 +58,6 @@ class TrendService extends Service{
 		// TODO Auto-generated method stub
 		}
 
-	/* (non-PHPdoc)
-	 * @see Service::hasField()
-	 */public function hasField($field) {
-		// TODO Auto-generated method stub
-		}
 
 }
 ?>

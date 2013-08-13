@@ -30,7 +30,18 @@ abstract class Service {
 	 * @param String $field
 	 * @return boolean
 	 */
-	abstract public function hasField($field);
+	public function hasField($field){
+		// TODO Auto-generated method stub
+		$array = $this->getTableFieldArray ();
+		for($i = 0; $i < count ( $array ); $i ++) {
+			$f = $array[$i];
+			if ($f == $field) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	/**
 	 * 通用过滤器，使用过滤器机制返回数据
 	 * @param int $start
@@ -41,16 +52,24 @@ abstract class Service {
 		$db = $GLOBALS['mysql'];
 		$db->Connect();
 		
+		// 如果filter为空则为其赋初值
+		if(!isset($filter)){
+			$filter = array();
+		}
+		
 		// columns的初值是 *
 		$columns = '*';
 		// tables的初值是主表名称
 		$tables = $this->getTableName();
 		// where的初值
-		$where = '1 = 1 and ';
-		
+		$where = '1 = 1 ';
+		// sort的初值
+		$sort = 'ORDER BY ';
+		// limit的初值
+		$limit = 'LIMIT ' . $start . ',' . $count;
 		
 		// 首先进入 columns的判断
-		if(isset($filter->columns) && $filter->columns instanceof ArrayObject){
+		if(isset($filter->columns) && count($filter->columns) > 0){
 			// 如果columns是一个数组则继续判断，否则终止
 			// 如果columns不是一个空数组，则将其设置为空
 			if(count($filter->columns) > 0){
@@ -68,6 +87,8 @@ abstract class Service {
 				}
 				
 			}
+			
+			
 			
 		}
 		// columns处理完成后，为其增加空格
@@ -119,7 +140,7 @@ abstract class Service {
 		$tables .= ' ';
 		
 		// 进入where的判断
-		if(isset($filter->where) && $filter->where instanceof ArrayObject){
+		if(isset($filter->where) && count($filter->where) > 0){
 			// 如果where是一个数组则继续判断，否则终止
 			// 遍历 where
 			for($i = 0 ; $i < count($filter->where) ; $i ++){
@@ -142,49 +163,136 @@ abstract class Service {
 				// 根据不同的mode进行判断
 				switch ($whereItem->mode){
 					case 'in':
+						// 如果args的数量为0，则跳出本次循环
+						if(count($whereItem->args) == 0){
+							continue;
+						}
+						// 遍历args,构造inStr
+						$inStr = '';
+						for($i = 0 ; $i < count($whereItem->args) ; $i ++){
+							$arg = $whereItem->args[$i];
+							
+						if($i == count($whereItem->args) - 1){
+								$notinStr .= "'".$arg."'";
+							}else{
+								$notinStr .= "'".$arg."'" . ',';
+						
+							}
+							
+						}
 						
 						
-						// 将joinwhere条件加入where
-						$where .= 'and ' . $whereItem->field . ' in(';
+						$where .= 'and ' . $whereItem->field . ' in(' . $inStr . ')';
 						break;
 					case 'notin':
+						// 如果args的数量为0，则跳出本次循环
+						if(count($whereItem->args) == 0){
+							continue;
+						}
+						
+						// 遍历args,构造notinStr
+						$notinStr = '';
+						for($i = 0 ; $i < count($whereItem->args) ; $i ++){
+							$arg = $whereItem->args[$i];
+								
+							if($i == count($whereItem->args) - 1){
+								$notinStr .= "'".$arg."'";
+							}else{
+								$notinStr .= "'".$arg."'" . ',';
+						
+							}
+								
+						}
+						
+						
+						$where .= 'and ' . $whereItem->field . ' not in(' . $notinStr . ')';
 						break;
 					case 'between':
+						// 如果args的数量小于2，则跳出本次循环
+						if(count($whereItem->args) < 2){
+							continue;
+						}
+						$where .= 'and (' . $whereItem->field . ' between "' . $whereItem->args[0] . '" and "' . $whereItem->args[1] . '")';
 						break;
 					case 'notbetween':
+						// 如果args的数量小于2，则跳出本次循环
+						if(count($whereItem->args) < 2){
+							continue;
+						}
+						$where .= 'and (' . $whereItem->field . ' not between "' . $whereItem->args[0] . '" and "' . $whereItem->args[1] . '")';
+						
 						break;
 					case 'like':
+						// 如果args的数量为0，则跳出本次循环
+						if(count($whereItem->args) == 0){
+							continue;
+						}
+						$where .= 'and ' . $whereItem->field . ' like "' . $whereItem->args[0] . '"';
+						
 						break;
 					case 'notlike':
+						// 如果args的数量为0，则跳出本次循环
+						if(count($whereItem->args) == 0){
+							continue;
+						}
+						$where .= 'and ' . $whereItem->field . ' not like "' . $whereItem->args[0] . '"';
 						break;
 					case 'isnull':
+						$where .= 'and ' . $whereItem->field . ' is null';
 						break;
 					case 'isnotnull':
+						$where .= 'and ' . $whereItem->field . ' is not null';
 						break;
 					default:
+						// 如果args的数量为0，则跳出本次循环
+						if(count($whereItem->args) == 0){
+							continue;
+						}
+						$where .= 'and ' . $whereItem->field . ' ' . $whereItem->mode . ' ' . $whereItem->args[0];
 						break;
 				}
 				
-			
-			
-				
+				$where .= ' ';
 					
 			}		
 			
 		}
 		
-// 		sort : {    //排序方式字段，可为空
-// 			field : '排序字段',
-// 			order : 'desc'  //desc或者asc
-// 		},
-// 		where : [{  // 过滤条件字段数组，可为空,所有where条件之间都是and的关系
-// 			field : '字段名称',   // 表字段名称
-// 			mode : '过滤方式',   //  =,!=,<,>,<=,>=,in(notin),between(notbetween),like(notlike),isnull(isnotnull)
-// 			args : ['10']   // 过滤参数数组
-// 		}],
+		// 完成sort的判断
+		if(isset($filter->sort)){
+			$sort .= $filter->sort->field . ' ' . $filter->sort->order . ' ';
+		}else{
+			$sort = 'ORDER BY ' . $this->getTablePrimary() . ' asc ';
+		}
 		
-		$sql = 'select ';
+		$sql = 'SELECT ' . $columns . ' FROM ' . $tables . ' WHERE ' . $where . ' ' . $sort . ' ' . $limit;
 		
+		echo $sql . '<hr />';
+		log_debug($sql);
+		
+		$db->query($sql);
+		
+		$result = array();
+		
+		$data = array();
+		if($db->isGo()){
+			$relCount = $db->getSelectNum();
+			//array_push($pld, $relCount);
+			$result['count'] = $relCount;
+		
+			while ($row = $db->getRow())
+			{
+				array_push($data, $row);
+			}
+		
+			$result['data'] = $data;
+		
+		
+		}else {
+			log_error($db->getError());
+		}
+		$db->Close();
+		return $result;
 		
 	}
 	

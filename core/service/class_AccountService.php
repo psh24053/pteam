@@ -156,6 +156,38 @@ class AccountService extends Service {
 		$db->Close();
 		return $resultArray;
 	}
+		/*
+	 * (non-PHPdoc) @see Service::getTableName()
+	 */
+	public function getTableName() {
+		// TODO Auto-generated method stub
+		return 'pt_account';
+	}
+	
+	/*
+	 * (non-PHPdoc) @see Service::getTablePrimary()
+	 */
+	public function getTablePrimary() {
+		// TODO Auto-generated method stub
+		return 'accountId';
+	}
+	
+	/*
+	 * (non-PHPdoc) @see Service::getTableFieldArray()
+	 */
+	public function getTableFieldArray() {
+		// TODO Auto-generated method stub
+		return array (
+				'accountId',
+				'username',
+				'password',
+				'phone',
+				'email',
+				'realname' 
+		);
+	}
+	
+
 
 }
 
