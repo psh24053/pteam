@@ -44,18 +44,28 @@ class TrendService extends Service{
 	 * @see Service::getTableName()
 	 */public function getTableName() {
 		// TODO Auto-generated method stub
+		return 'pt_trend';
 		}
 
 	/* (non-PHPdoc)
 	 * @see Service::getTablePrimary()
 	 */public function getTablePrimary() {
 		// TODO Auto-generated method stub
+		return 'trendId';
 		}
 
 	/* (non-PHPdoc)
 	 * @see Service::getTableFieldArray()
 	 */public function getTableFieldArray() {
 		// TODO Auto-generated method stub
+		return array(
+				'trendId',
+				'produceTime',
+				'accountId',
+				'scope',
+				'scopeTargetId',
+				'trendJSON'
+		);
 		}
 
 

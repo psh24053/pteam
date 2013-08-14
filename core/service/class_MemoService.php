@@ -116,7 +116,7 @@ class MemoService extends Service{
 	 */
 	public function getTableFieldArray() {
 		// TODO Auto-generated method stub
-		return array('memoId','accountId','content','pubTime');
+		return array('memoId','accountId','content','pubTime','remindTime');
 	}
 
 	

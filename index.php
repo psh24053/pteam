@@ -11,12 +11,13 @@ $filter->columns = array('phone');
 
 $where1->field = 'username';
 $where1->mode = '=';
-$where1->args = array('admin');
+$where1->args = array('Rock');
 
 $filter->where = array($where1);
 
-array_push($filter->where, $where1);
+//array_push($filter->where, $where1);
 
+echo json_encode($filter);
 print_r($filter);
 echo '<hr />';
 

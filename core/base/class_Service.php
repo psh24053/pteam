@@ -140,6 +140,7 @@ abstract class Service {
 		$tables .= ' ';
 		
 		// 进入where的判断
+		
 		if(isset($filter->where) && count($filter->where) > 0){
 			// 如果where是一个数组则继续判断，否则终止
 			// 遍历 where
@@ -147,15 +148,15 @@ abstract class Service {
 				$whereItem = $filter->where[$i];
 					
 				//判断tableitem对象的字段是否存在
-				if(isset($whereItem->field)){
+				if(!isset($whereItem->field)){
 					log_error('$whereItem->field field not found!');
 					continue;
 				}
-				if(isset($whereItem->mode)){
+				if(!isset($whereItem->mode)){
 					log_error('$whereItem->mode mode not found!');
 					continue;
 				}
-				if(isset($whereItem->args)){
+				if(!isset($whereItem->args)){
 					log_error('$whereItem->args args not found!');
 					continue;
 				}
@@ -248,7 +249,7 @@ abstract class Service {
 						if(count($whereItem->args) == 0){
 							continue;
 						}
-						$where .= 'and ' . $whereItem->field . ' ' . $whereItem->mode . ' ' . $whereItem->args[0];
+						$where .= 'and ' . $whereItem->field . ' ' . $whereItem->mode . ' "' . $whereItem->args[0].'"';
 						break;
 				}
 				
@@ -266,7 +267,6 @@ abstract class Service {
 		}
 		
 		$sql = 'SELECT ' . $columns . ' FROM ' . $tables . ' WHERE ' . $where . ' ' . $sort . ' ' . $limit;
-		
 		echo $sql . '<hr />';
 		log_debug($sql);
 		

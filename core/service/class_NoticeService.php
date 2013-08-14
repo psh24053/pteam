@@ -43,18 +43,29 @@ class NoticeService extends Service{
 	 * @see Service::getTableName()
 	 */public function getTableName() {
 		// TODO Auto-generated method stub
+		return 'pt_notice';
 		}
 
 	/* (non-PHPdoc)
 	 * @see Service::getTablePrimary()
 	 */public function getTablePrimary() {
 		// TODO Auto-generated method stub
+		return 'noticeId';
 		}
 
 	/* (non-PHPdoc)
 	 * @see Service::getTableFieldArray()
 	 */public function getTableFieldArray() {
 		// TODO Auto-generated method stub
+		return array(
+				'noticeId',
+				'type',
+				'sourceId',
+				'title',
+				'content',
+				'pubtime'
+				
+		);
 		}
  
 }

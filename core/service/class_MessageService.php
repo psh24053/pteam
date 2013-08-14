@@ -121,18 +121,28 @@ class MessageService extends Service{
 	 * @see Service::getTableName()
 	 */public function getTableName() {
 		// TODO Auto-generated method stub
+		return 'pt_message';
 		}
 
 	/* (non-PHPdoc)
 	 * @see Service::getTablePrimary()
 	 */public function getTablePrimary() {
 		// TODO Auto-generated method stub
+		return 'messageId';
 		}
 
 	/* (non-PHPdoc)
 	 * @see Service::getTableFieldArray()
 	 */public function getTableFieldArray() {
 		// TODO Auto-generated method stub
+		return array(
+				'messageId',
+				'fromAccountId',
+				'toAccountId',
+				'content',
+				'pubTime',
+				'readMark'
+		);
 		}
 
 }
