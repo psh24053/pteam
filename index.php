@@ -10,8 +10,8 @@ $filter->sort->order = 'asc';
 $filter->columns = array('phone');
 
 $where1->field = 'username';
-$where1->mode = '=';
-$where1->args = array('Rock');
+$where1->mode = 'isnull';
+$where1->args = array('');
 
 $filter->where = array($where1);
 
@@ -24,6 +24,7 @@ echo '<hr />';
 $result = $accountService->filterSerivce(0, 10, $filter);
 
 print_r($result);
+echo json_encode($result);
 
 /**
  * 测试

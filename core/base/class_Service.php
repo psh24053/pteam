@@ -174,9 +174,9 @@ abstract class Service {
 							$arg = $whereItem->args[$i];
 							
 						if($i == count($whereItem->args) - 1){
-								$notinStr .= "'".$arg."'";
+								$inStr .= "'".$arg."'";
 							}else{
-								$notinStr .= "'".$arg."'" . ',';
+								$inStr .= "'".$arg."'" . ',';
 						
 							}
 							
