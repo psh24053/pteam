@@ -108,15 +108,15 @@ abstract class Service {
 				$tableItem = $filter->tables[$i];
 			
 				//判断tableitem对象的字段是否存在
-				if(isset($tableItem->table)){
+				if(!isset($tableItem->table)){
 					log_error('$tableItem->table table not found!');
 					continue;
 				}
-				if(isset($tableItem->as)){
+				if(!isset($tableItem->as)){
 					log_error('$tableItem->as as not found!');
 					continue;
 				}
-				if(isset($tableItem->joinWhere)){
+				if(!isset($tableItem->joinWhere)){
 					log_error('$tableItem->joinWhere joinWhere not found!');
 					continue;
 				}

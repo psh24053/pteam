@@ -10,7 +10,7 @@ $filter->sort->order = 'asc';
 $filter->columns = array('phone');
 
 $where1->field = 'username';
-$where1->mode = 'isnull';
+$where1->mode = 'isnotnull';
 $where1->args = array('');
 
 $filter->where = array($where1);
