@@ -96,7 +96,7 @@ abstract class Service {
 		
 		
 		// 进入tables的判断
-		if(isset($filter->tables) && $filter->tables instanceof ArrayObject){
+		if(isset($filter->tables) && count($filter->tables) > 0){
 			// 如果tables是一个数组则继续判断，否则终止
 			// 如果tables不是一个空数组，则为主表增加别名
 			if(count($filter->tables) > 0){
@@ -108,15 +108,15 @@ abstract class Service {
 				$tableItem = $filter->tables[$i];
 			
 				//判断tableitem对象的字段是否存在
-				if(isset($tableItem->table)){
+				if(!isset($tableItem->table)){
 					log_error('$tableItem->table table not found!');
 					continue;
 				}
-				if(isset($tableItem->as)){
+				if(!isset($tableItem->as)){
 					log_error('$tableItem->as as not found!');
 					continue;
 				}
-				if(isset($tableItem->joinWhere)){
+				if(!isset($tableItem->joinWhere)){
 					log_error('$tableItem->joinWhere joinWhere not found!');
 					continue;
 				}

@@ -9,11 +9,12 @@ $filter->sort->field = 'phone';
 $filter->sort->order = 'asc';
 $filter->columns = array('phone');
 
-$where1->field = 'username';
-$where1->mode = 'isnull';
-$where1->args = array('');
+$tables1->table = 'pt_comment';
+$tables1->as = 'c';
+$tables1->joinWhere = 'm.accountId = c.accountId';
 
-$filter->where = array($where1);
+
+$filter->tables = array($tables1);
 
 //array_push($filter->where, $where1);
 
